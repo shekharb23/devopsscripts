@@ -22,7 +22,10 @@ cd tomcat
 cat > conf/tomcat-users.xml <<EOF
 <tomcat-users>
   <role rolename="manager-gui"/>
-  <user username="tomcat" password="root123456" roles="manager-gui"/>
+  <role rolename="manager-script"/>
+
+  <user username="tomcat" password="root123456"
+        roles="manager-gui,manager-script"/>
 </tomcat-users>
 EOF
 
