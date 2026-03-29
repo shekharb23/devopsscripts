@@ -7,14 +7,14 @@ apt install openjdk-17-jdk openjdk-17-jre -y
 
 ##Download the SonaType Nexus on Ubuntu using wget
 cd /opt 
-sudo wget https://download.sonatype.com/nexus/3/latest-unix.tar.gz   
+sudo wget https://download.sonatype.com/nexus/3/nexus-3.90.2-06-linux-x86_64.tar.gz   
 
 
 ##Extract the Nexus repository setup in /opt directory
-tar -zxvf latest-unix.tar.gz     
+tar -zxvf nexus-3.90.2-06-linux-x86_64.tar.gz      
 
 ##Rename the extracted Nexus setup folder to nexus
-sudo mv /opt/nexus-3.77.0-08/ /opt/nexus
+sudo mv /opt/nexus-3.90.2-06/ /opt/nexus
 
 ##As security practice, not to run nexus service using root user, so lets create new user named nexus to run nexus service
 sudo adduser nexus   --> give password
@@ -37,22 +37,53 @@ run_as_user="nexus"
 
 ##To Increase the nexus JVM heap size, you can modify the size as shown below
 
-vi /opt/nexus/bin/nexus.vmoptions
+vi /opt/nexus/bin/nexus.vmoptions 
+##Replace full file with below data
 
 -Xms1024m
 -Xmx1024m
 -XX:MaxDirectMemorySize=1024m
 
+# Unlock diagnostic options before using any diagnostic flags
+-XX:+UnlockDiagnosticVMOptions
 -XX:LogFile=./sonatype-work/nexus3/log/jvm.log
 -XX:-OmitStackTraceInFastThrow
+
+# Networking
 -Djava.net.preferIPv4Stack=true
+
+# Karaf configuration
 -Dkaraf.home=.
 -Dkaraf.base=.
 -Dkaraf.etc=etc/karaf
 -Djava.util.logging.config.file=/etc/karaf/java.util.logging.properties
 -Dkaraf.data=./sonatype-work/nexus3
 -Dkaraf.log=./sonatype-work/nexus3/log
--Djava.io.tmpdir=./sonatype-work/nexus3/tmp 
+-Djava.io.tmpdir=./sonatype-work/nexus3/tmp
+
+# Additional VM options for Java 9+
+--add-reads=java.xml=java.logging
+--add-opens
+java.base/java.security=ALL-UNNAMED
+--add-opens
+java.base/java.net=ALL-UNNAMED
+--add-opens
+java.base/java.lang=ALL-UNNAMED
+--add-opens
+java.base/java.util=ALL-UNNAMED
+--add-opens
+java.naming/javax.naming.spi=ALL-UNNAMED
+--add-opens
+java.rmi/sun.rmi.transport.tcp=ALL-UNNAMED
+--add-exports=java.base/sun.net.www.protocol.http=ALL-UNNAMED
+--add-exports=java.base/sun.net.www.protocol.https=ALL-UNNAMED
+--add-exports=java.base/sun.net.www.protocol.jar=ALL-UNNAMED
+--add-exports=jdk.xml.dom/org.w3c.dom.html=ALL-UNNAMED
+--add-exports=jdk.naming.rmi/com.sun.jndi.url.rmi=ALL-UNNAMED
+--add-exports=java.security.sasl/com.sun.security.sasl=ALL-UNNAMED
+--add-exports=java.base/sun.security.x509=ALL-UNNAMED
+--add-exports=java.base/sun.security.rsa=ALL-UNNAMED
+--add-exports=java.base/sun.security.pkcs=ALL-UNNAMED 
 
 ##To run nexus as service using Systemd
 sudo vi /etc/systemd/system/nexus.service
