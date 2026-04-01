@@ -1,0 +1,13 @@
+ansible -m ping localhost
+ansible localhost -a "yum install -y git"
+git -v
+ansible localhost -a "git -v"
+ansible localhost -a "mvn --version"
+ansible localhost -a "yum install -y maven"
+ansible localhost -a "touch file1"
+ansible localhost -a "yum install -y httpd"
+ansible localhost -a "systemctl start httpd"
+ansible localhost -a "systemctl status httpd"
+ansible localhost -a "useradd shekhar"
+ansible localhost -a "cat /etc/passwd"
+ansible localhost -a "yum remove git* maven* httpd* -y"
