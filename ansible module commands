@@ -1,0 +1,26 @@
+#to install packages
+#yum modules
+ #present=install
+ #absent=uninstall
+ #latest=update
+ #become=sudo to elevate the permissions
+ansible all -m yum -a "name=git state=present"
+ansible all -m yum -a "name=maven state=present"
+ansible all -m yum -a "name=httpd state=present"
+ansible all -m yum -a "name=git state=absent"
+ansible all -m yum -a "name=maven state=absent"
+ansible all -m yum -a "name=httpd state=absent"
+#Services module
+ #started=start
+ #stopped=stop
+ #restarted=restart
+ #enabled=service start on boot
+ansible all -m service -a "name=httpd state=started"
+#User module
+ansible all -m user -a "name=shekhar state=present"
+#AdHoc commands
+ansible all -a "cat /etc/passwd"  #To see users added
+ansible all -a "systemctl status httpd"  #To start httpd service
+ansible all -m copy -a "src=python1 dest=/home/ec2-user/"  #To copy file from master to client
+ansible all -a "ls /home/ec2-user/"  #To see files in given directory
+ansible all -a "yum remove git* maven* httpd* -y" #To remove/uninstall all packages
