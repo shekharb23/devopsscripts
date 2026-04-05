@@ -44,5 +44,5 @@ inventory = /etc/ansible/hosts
 host_key_checking = False
 #Verify setup by following command
 ansible all -m ping
-
+#Now u can run AdHoc commands from AdHoc commands file
 
