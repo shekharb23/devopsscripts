@@ -17,7 +17,6 @@ permitrootpasswd yes
 authenticationpassword yes
 authenticationpassword no
 #Comment last two lines in the file
-restart sshd
 systemctl restart sshd
 #comeback to ansible master and generate keys
 ssh-keygen
