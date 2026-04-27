@@ -21,7 +21,7 @@ systemctl restart sshd
 #comeback to ansible master and generate keys
 ssh-keygen
 #copy keys to remote machine
-ssh-copy-id roo@hostnameremote
+ssh-copy-id root@hostnameremote
 #on remote machine for hostname
 hostname -i
 #copy id to all client machines
